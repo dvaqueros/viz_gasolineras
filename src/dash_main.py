@@ -113,7 +113,7 @@ def getLineas(prod, distrito, start_date, end_date, barrio, cluster):
 
 def getForecast(prod, distrito, start_date, end_date, barrio, cluster):
     df = filtrarDF(prod, distrito, start_date, end_date, barrio, cluster)
-    fig=viz_forecast.crearForecast(df, prod)
+    fig=viz_forecast.crearForecast(df, prod, cluster)
     return fig
 
 
@@ -378,7 +378,7 @@ app.layout = dbc.Container(
                                 id='divPlotForecast',
                                 children=
                                      [
-                                         html.H3("Forecasting"),
+                                         html.H3("Forecasting con precio ajustado"),
                                          dbc.Card(
                                              dbc.CardBody([
                                                  dcc.Graph

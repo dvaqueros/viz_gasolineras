@@ -28,13 +28,13 @@ def crearMapaPrecio(df_mapa, product):
     if len(df_mapa):
         if product != 'comparativa':
 
-            # Elegimos un rango de fechas
-            date_init = datetime(2022, 1, 1)
-            date_end = datetime(2022, 1, 15)
-
-            # Hago copia para no cargarme el original
-            df_mapa = df_mapa.replace(0, np.nan)
-            df_mapa = df_mapa[(df_mapa['date'] > date_init) & (df_mapa['date'] < date_end)]
+            # # Elegimos un rango de fechas
+            # date_init = datetime(2022, 1, 1)
+            # date_end = datetime(2022, 1, 15)
+            #
+            # # Hago copia para no cargarme el original
+            # df_mapa = df_mapa.replace(0, np.nan)
+            # df_mapa = df_mapa[(df_mapa['date'] > date_init) & (df_mapa['date'] < date_end)]
 
             dct = {
                 'number': 'mean',
@@ -49,7 +49,7 @@ def crearMapaPrecio(df_mapa, product):
             df_mapa = df_mapa.groupby(groupby_cols, as_index=False).agg(**{k: (k, v) for k, v in dct.items()})
 
 
-            fig = go.Figure(go.Choroplethmapbox(geojson=city_border, locations=["Madrid"],
+            fig = go.Figure(go.Choroplethmapbox(geojson = city_border, locations = ["Madrid"],
                                 z=[0],
                                 colorscale="Blues",
                                 zmin=0,
@@ -58,9 +58,11 @@ def crearMapaPrecio(df_mapa, product):
                                 marker_opacity=0.1,
                                 marker_line_width=2))
 
+            print(df_mapa)
+
             fig.add_trace(go.Choroplethmapbox(geojson=neighbourhood_borders, locations=np.sort(df_mapa.neighbourhood.unique()),
                                     z=df_mapa.groupby("neighbourhood", as_index=False).agg({product: 'mean'})[product],
-                                    colorscale="tealgrn_r",
+                                    colorscale="oryel_r",
                                     zmin=min(df_mapa.groupby("neighbourhood", as_index=False).agg({product: 'mean'})[product]),
                                     zmax=max(df_mapa.groupby("neighbourhood", as_index=False).agg({product: 'mean'})[product]),
                                     marker_opacity=0.9, marker_line_width=0))
