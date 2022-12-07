@@ -1,10 +1,4 @@
 
-#
-# dict_products_clusters = {}
-# for product in products:
-#     dict_products_clusters[product]=list(sorted(dict_df_products[product]['Cluster'].unique()))
-
-
 
 columnas_clust_drop = [
     'name',
