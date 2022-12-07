@@ -37,16 +37,16 @@ palette =["#f44336",
 products = ["gasoline_95E5",
             "gasoline_95E5_premium",
             "gasoline_98E5",
-            "gasoline_98E10",
+            #"gasoline_98E10",
             "diesel_A",
             "diesel_B",
             "diesel_premium",
-            "bioetanol",
+            #"bioetanol",
             "biodiesel",
             "lpg",
             "cng",
-            "lng",
-            "hydrogen"]
+            "lng"]
+            #"hydrogen"]
 
 # Nombres de las columnas de los precios ajustados de las columnas
 products_adj = [x + '_adj' for x in products]
@@ -222,4 +222,16 @@ dict_district_neigh = {
 list_distritos =['Arganzuela', 'Barajas', 'Carabanchel', 'Centro', 'Chamartin', 'Chamberi', 'Ciudad Lineal', 'Fuencarral-El Pardo', 'Hortaleza', 'Latina', 'Moncloa-Aravaca', 'Moratalaz', 'Puente de Vallecas', 'Retiro', 'Salamanca', 'San Blas', 'Tetuan', 'Usera', 'Vicalvaro', 'Villa de Vallecas', 'Villaverde']
 
 
+dict_products_clusters = {
+    'gasoline_95E5'         : ['Cluster 0', 'Cluster 1', 'Cluster 2', 'Cluster 3', 'Cluster 4', 'Cluster 5', 'Cluster 6', 'Cluster 7', 'Cluster 8', 'Cluster 9', 'Cluster 10', 'Cluster 11', 'Cluster 12', 'Cluster 13', 'Cluster 14'],
+    'gasoline_95E5_premium' : ['Cluster 0', 'Cluster 1', 'Cluster 2', 'Cluster 3', 'Cluster 4', 'Cluster 5'],
+    'gasoline_98E5'         : ['Cluster 0', 'Cluster 1', 'Cluster 2', 'Cluster 3', 'Cluster 4', 'Cluster 5', 'Cluster 6', 'Cluster 7', 'Cluster 8', 'Cluster 9', 'Cluster 10', 'Cluster 11'],
+    'diesel_A'              : ['Cluster 0', 'Cluster 1', 'Cluster 2', 'Cluster 3', 'Cluster 4', 'Cluster 5', 'Cluster 6', 'Cluster 7', 'Cluster 8', 'Cluster 9', 'Cluster 10', 'Cluster 11', 'Cluster 12', 'Cluster 13', 'Cluster 14'],
+    'diesel_B'              : ['Cluster 0', 'Cluster 1', 'Cluster 2'],
+    'diesel_premium'        : ['Cluster 0', 'Cluster 1', 'Cluster 2', 'Cluster 3', 'Cluster 4', 'Cluster 5', 'Cluster 6', 'Cluster 7', 'Cluster 8', 'Cluster 9', 'Cluster 10', 'Cluster 11', 'Cluster 12', 'Cluster 13'],
+    'biodiesel'             : ['Cluster 0'],
+    'lpg'                   : ['Cluster 0', 'Cluster 1', 'Cluster 2', 'Cluster 3', 'Cluster 4', 'Cluster 5', 'Cluster 6'],
+    'cng'                   : ['Cluster 0', 'Cluster 1', 'Cluster 2', 'Cluster 3'],
+    'lng'                   : ['Cluster 0']
+}
 
