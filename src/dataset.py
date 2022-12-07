@@ -198,7 +198,7 @@ print('dataset fin')
 
 df_parsed.groupby(['district', 'neighbourhood'], as_index=False).first()[['district', 'neighbourhood']].to_csv('~/hola.csv')
 
-
+# Para debugguear
 # df_gasoline_95E5         = df_parsed[df_parsed['gasoline_95E5'] != 0]
 # df_gasoline_95E5_premium = df_parsed[df_parsed['gasoline_95E5_premium'] != 0]
 # df_gasoline_98E5         = df_parsed[df_parsed['gasoline_98E5'] != 0]
@@ -212,4 +212,3 @@ df_parsed.groupby(['district', 'neighbourhood'], as_index=False).first()[['distr
 # df_cng                   = df_parsed[df_parsed['cng'] != 0]
 # df_lng                   = df_parsed[df_parsed['lng'] != 0]
 # df_hydrogen              = df_parsed[df_parsed['hydrogen'] != 0]
-

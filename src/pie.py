@@ -5,6 +5,15 @@ import plotly.graph_objects as go
 
 
 def crearPie(df):
+    """
+    Parameters:
+    df: df. dataframe con el conjunto de datos ya filtrado
+
+
+    Output:
+    fig: Figure. grafico con la representacion de la cuota del total de las gasolineras por empresa
+    """
+
     fig=go.Figure()
     if(len(df)):
         df_parsed=df
@@ -12,7 +21,6 @@ def crearPie(df):
         fig = px.pie(df_parsed[df_parsed['date'] == last_date],
                      values = 'station_id',
                      names = 'name_parsed',
-                     #title = 'Reparto de gasolineras por empresa',
                      color = 'name_parsed',
                      labels = {'name_parsed':'Company',
                             'station_id':'Gasolineras'},

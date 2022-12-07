@@ -43,7 +43,10 @@ with open("data/output/df_parsed", 'rb') as f:
 product="gasoline_95E5"
 
 def getDropdownDistritos():
-
+    """
+    Output:
+    distritos: lista de str. Lista con los distritos de madrid
+    """
     distritos = dictionaries.list_distritos
     distritos.insert(0, "Todos")
     return distritos
@@ -51,6 +54,18 @@ def getDropdownDistritos():
 
 
 def filtrarDF(producto, distrito, start_date, end_date, barrio, cluster):
+    """
+    Parameters:
+    producto: str. nombre del combustible
+    distrito: str. nombre del distrito
+    start_date: datetime. fecha de inicio del filtro
+    end_date: datetime. fecha de fin del filtro
+    barrio: str. nombre del barrio
+    cluster: str. nombre del cluster
+
+    Output:
+    return_df: df. dataframe con los datos filtrados en funcion de los filtros
+    """
     with open("data/output/dict_df_products_clustering_2", 'rb') as f:
         dict_df_products = pickle.load(f)
     return_df = dict_df_products[producto]
@@ -74,14 +89,29 @@ def filtrarDF(producto, distrito, start_date, end_date, barrio, cluster):
 
 
 def getMapa(id, prod, distrito, start_date, end_date, barrio, cluster):
-    #print(id)
-    df=filtrarDF(prod, distrito, start_date, end_date, barrio, cluster)
+    """
+    Devuelve un mapa que puede ver:
+     La densidad de gasolineras por barrio
+     El precio medio del combustible por barrio
+     La localizacion exacta de las gasolineras, junto a su tamaño (numero de productos ofrecidos) y su empresa
+
+    Parameters:
+    id: str. Tipo de mapa a representar
+    prod: str. nombre del combustible
+    distrito: str. nombre del distrito
+    start_date: datetime. fecha de inicio del filtro
+    end_date: datetime. fecha de fin del filtro
+    barrio: str. nombre del barrio
+    cluster: str. nombre del cluster
+
+    Output:
+    fig: Figure. Mapa a representar
+    """
+
+    df = filtrarDF(prod, distrito, start_date, end_date, barrio, cluster)
     if id == 'id_Localizacion':
         fig = mapa.crearMapaScatter(df)
     elif id == 'id_Densidad':
-        # print(distrito)
-        # print(barrio)
-        # print(df[['district','neighbourhood']])
         fig = mapaDensidad.crearMapaDensidad(df)
     else:
         fig = mapaPrecio.crearMapaPrecio(df, prod)
@@ -91,28 +121,108 @@ def getMapa(id, prod, distrito, start_date, end_date, barrio, cluster):
 
 
 def getPie(prod, distrito, start_date, end_date, barrio, cluster):
+    """
+    Pie chart que representa la cuota del total de gasolineras seleccionadas que posee cada compañia
+
+    Parameters:
+    prod: str. nombre del combustible
+    distrito: str. nombre del distrito
+    start_date: datetime. fecha de inicio del filtro
+    end_date: datetime. fecha de fin del filtro
+    barrio: str. nombre del barrio
+    cluster: str. nombre del cluster
+
+    Output:
+    fig: Figure. Piechart a representar
+    """
+
     df = filtrarDF(prod, distrito, start_date, end_date, barrio, cluster)
     fig=pie.crearPie(df)
+
     return fig
 
 def getPieCluster(prod, distrito, start_date, end_date, barrio, cluster):
+    """
+    Pie chart que representa, del total de gasolineras seleccionadas, cuantas pertenecen a cada cluster
+
+    Parameters:
+    prod: str. nombre del combustible
+    distrito: str. nombre del distrito
+    start_date: datetime. fecha de inicio del filtro
+    end_date: datetime. fecha de fin del filtro
+    barrio: str. nombre del barrio
+    cluster: str. nombre del cluster
+
+    Output:
+    fig: Figure. Piechart a representar
+    """
+
     df = filtrarDF(prod, distrito, start_date, end_date, barrio, cluster)
-    fig=pieClusters.crearPieCluster(df)
+    fig = pieClusters.crearPieCluster(df)
+
     return fig
 
 def getViolinEmpresas(prod, distrito, start_date, end_date, barrio, cluster):
+    """
+    Grafica de violin que representa la distribucion del precio del combustible seleccionado
+
+    Parameters:
+    prod: str. nombre del combustible
+    distrito: str. nombre del distrito
+    start_date: datetime. fecha de inicio del filtro
+    end_date: datetime. fecha de fin del filtro
+    barrio: str. nombre del barrio
+    cluster: str. nombre del cluster
+
+    Output:
+    fig: Figure. Grafica de violin a representar
+    """
+
     df = filtrarDF(prod, distrito, start_date, end_date , barrio, cluster)
-    fig=violin.crearViolinEmpresas(df, prod)
+    fig = violin.crearViolinEmpresas(df, prod)
+
     return fig
 
 def getLineas(prod, distrito, start_date, end_date, barrio, cluster):
+    """
+    Grafica de lineas que representa la evolucion temporal del precio del combustible seleccionado
+
+    Parameters:
+    prod: str. nombre del combustible
+    distrito: str. nombre del distrito
+    start_date: datetime. fecha de inicio del filtro
+    end_date: datetime. fecha de fin del filtro
+    barrio: str. nombre del barrio
+    cluster: str. nombre del cluster
+
+    Output:
+    fig: Figure. Grafica de lineas a representar
+    """
+
     df = filtrarDF(prod, distrito, start_date, end_date, barrio, cluster)
     fig=lineas.crearLineas(df, prod)
+
     return fig
 
 def getForecast(prod, distrito, start_date, end_date, barrio, cluster):
+    """
+    Grafica de lineas que representa la evolucion temporal del precio AJUSTADO del combustible seleccionado y su forecast
+
+    Parameters:
+    prod: str. nombre del combustible
+    distrito: str. nombre del distrito
+    start_date: datetime. fecha de inicio del filtro
+    end_date: datetime. fecha de fin del filtro
+    barrio: str. nombre del barrio
+    cluster: str. nombre del cluster
+
+    Output:
+    fig: Figure. Grafica de lineas a representar
+    """
+
     df = filtrarDF(prod, distrito, start_date, end_date, barrio, cluster)
     fig=viz_forecast.crearForecast(df, prod, cluster)
+
     return fig
 
 
@@ -123,10 +233,6 @@ app.title = "GeoPortal"
 #logging.getLogger('werkzeug').setLevel(logging.INFO)
 dash.register_page(__name__, path='/')
 
-
-#df_dash = df_parsed
-
-#fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
 
 app.layout = dbc.Container(
     [
@@ -172,7 +278,7 @@ app.layout = dbc.Container(
                          style={
                              "width": "35%",
                              "vertical-align": "center",
-                                    "textAlign": "center",
+                             "textAlign": "center",
                             "horizontal-align": "right"
                          },
                         className="rounded mx-auto d-block"
@@ -434,19 +540,12 @@ app.layout = dbc.Container(
 
 
 
-# @app.callback( #Fechas slider
-#     Output("fecha_init", "children"),
-#     Output("fecha_end", "children"),
-#     Input("slider-fechas", 'value'),
-# )
-# def fechasInitEndSlider(min_max_date):
-#     print(min_max_date)
-#     return [min_max_date[0].strftime("%Y-%m-%d"),
-#             min_max_date[1].strftime("%Y-%m-%d"),]
 
 
 
-@app.callback( #Mapa a mostrara
+####################### CALLBACKS
+
+@app.callback( #Mapa a mostrar
     Output("plotMap", "figure"),
     Output("plotPie", "figure"),
     Output("plotPieCluster", "figure"),
@@ -462,6 +561,26 @@ app.layout = dbc.Container(
     Input("cluster-dd", 'value'),
 )
 def selectTabMap(active_tab_map, active_tab_prod, distrito, start_date, end_date, barrio, cluster):
+    """
+    Parameters:
+    active_tab_map: str. identificador del tipo de mapa a representar (densidad, precio, localizacion)
+    active_tab_prod: str. identificador del tipo de combustible a representar
+    distrito: str. identificador del distrito a filtrar
+    start_date: datetime. fecha de inicio del filtro
+    end_date: datetime. fecha de fin del filtro
+    barrio: str. nombre del barrio a filtrar
+    cluster: str. nombre del cluster
+
+    Output:
+    fig: Figure. Grafica MapBox a representar
+    fig: Figure. Piechart de cuota del total de las gasolineras a representar
+    fig: Figure. Piechart del distribucion de las gasolineras por cluster
+    fig: Figure. Grafica de violin a representar
+    fig: Figure. Grafica de lineas a representar
+    fig: Figure. Grafica de lineas con forecasting a representar
+    """
+
+
     return [getMapa(active_tab_map, active_tab_prod, distrito, start_date, end_date, barrio, cluster),
             getPie(active_tab_prod, distrito, start_date, end_date, barrio, cluster),
             getPieCluster(active_tab_prod, distrito, start_date, end_date, barrio, cluster),
@@ -474,6 +593,16 @@ def selectTabMap(active_tab_map, active_tab_prod, distrito, start_date, end_date
     Input("district-dd", 'value'),
 )
 def barriosDeDistrito(distrito):
+    """
+    Asignacion de las opciones del dropdown de barrios en funcion del distrito
+
+    Parameters:
+    distrito: str. identificador del distrito
+
+    Output:
+    lista: list. barrios pertenecientes al distrito seleccionado
+    """
+
     if distrito != 'Todos':
         return dictionaries.dict_district_neigh[distrito]
     else:
@@ -485,6 +614,17 @@ def barriosDeDistrito(distrito):
     Input("barrio-dd", 'value')
 )
 def barriosDeDistritoDefecto(distrito, barrio):
+    """
+    Callback para resolver casos en los que el se cambia el distrito una vez se tenia un barrio seleccionado
+
+    Parameters:
+    distrito: str. identificador del distrito
+    barrio: str. identificador del barrio
+
+    Output:
+    str: barrios pertenecientes al distrito seleccionado
+    """
+
     if distrito == 'Todos':
         return "Todos"
     if barrio not in dict_district_neigh[distrito]:
@@ -498,6 +638,16 @@ def barriosDeDistritoDefecto(distrito, barrio):
     Input("tab_products", 'active_tab'),
 )
 def clustersDeProducto(producto):
+    """
+    Asignacion de las opciones del dropdown de cluster en funcion del producto
+
+    Parameters:
+    producto: str. identificador del producto
+
+    Output:
+    lista: list. clusters pertenecientes al producto seleccionado
+    """
+
     return ["Todos"]+dict_products_clusters[producto]
 
 @app.callback( # Barrios por distrito dd
@@ -505,6 +655,12 @@ def clustersDeProducto(producto):
     Input("tab_products", 'active_tab'),
 )
 def clustersDeProductoDefecto(producto):
+    """
+    Callback para resolver casos en los que el se cambia el producto y ya  se tenia un cluster seleccionado
+
+    Output:
+    str: barrios pertenecientes al distrito seleccionado
+    """
     return "Todos"
 
 
