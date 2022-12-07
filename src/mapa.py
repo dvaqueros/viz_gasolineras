@@ -44,7 +44,7 @@ def crearMapaScatter(df_mapa):
 
 
         for name in list(name_colors.keys()):
-            df_mapa_1 = df_mapa[(df_mapa['name_parsed'] == name)]
+            df_mapa_1 = df_mapa[(df_mapa['name_parsed'] == name)].copy()
             print(df_mapa_1[products])
             df_mapa_1['num_combustibles'] = df_mapa_1[products].astype(bool).sum(axis=1)
             fig.add_trace(go.Scattermapbox(

@@ -213,7 +213,6 @@ for product in products:
         # impotancia = forecaster.get_feature_importance()
         # impotancia
         #
-        # # Guardar modelo
-        # save_forecaster(forecaster, file_name='forecaster.py', verbose=False)
+
 
 pickle.dump(modelos, open("data/output/modelos", "wb"))
