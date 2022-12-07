@@ -12,7 +12,7 @@ def crearForecast(df_lineas, product, cluster):
         with open("data/output/modelos", 'rb') as f:
             modelos = pickle.load(f)
 
-        df_prediccion=modelos[product][cluster]['model'].predict(steps=30)
+        df_prediccion=modelos[product][cluster]['model'].predict(steps=18)
 
 
         if len(df_lineas):

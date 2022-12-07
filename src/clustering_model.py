@@ -15,6 +15,9 @@ from tslearn.barycenters import dtw_barycenter_averaging
 from tslearn.clustering import TimeSeriesKMeans
 from sklearn.cluster import KMeans
 
+# Para un eficiente funcionamiento de los bucles utilizados para guardar los binarios se ha comentado las lineas de
+# output y pasos intermedios del entrenamiento.
+
 
 columnas_clust_drop = [
     'name',

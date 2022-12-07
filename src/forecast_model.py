@@ -1,16 +1,11 @@
 # Inspirado por https://www.cienciadedatos.net/documentos/py27-forecasting-series-temporales-python-scikitlearn.html
 
-# Tratamiento de datos
-# ==============================================================================
 import numpy as np
 import pandas as pd
 
 # Gráficos
 # ==============================================================================
 import matplotlib.pyplot as plt
-# plt.style.use('fivethirtyeight')
-# plt.rcParams['lines.linewidth'] = 1.5
-# %matplotlib inline
 
 # Modelado y Forecasting
 # ==============================================================================
@@ -21,15 +16,16 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
-
 from skforecast.ForecasterAutoreg import ForecasterAutoreg
-from skforecast.ForecasterAutoregCustom import ForecasterAutoregCustom
-from skforecast.ForecasterAutoregDirect import ForecasterAutoregDirect
 from skforecast.model_selection import grid_search_forecaster
 from skforecast.model_selection import backtesting_forecaster
 from skforecast.utils import save_forecaster
 from skforecast.utils import load_forecaster
 import pickle
+
+
+# Para un eficiente funcionamiento de los bucles utilizados para guardar los binarios se ha comentado las lineas de
+# output y pasos intermedios del entrenamiento.
 
 # Configuración warnings
 # ==============================================================================
@@ -38,24 +34,23 @@ import warnings
 
 # Preparación del dato
 # ==============================================================================
+# Cargamos los datos etiquetados tras el modelo de clustering, pues se hace una prediccion por perfil
 with open("data/output/dict_df_products_clustering", 'rb') as f:
     dict_df_products_clustering = pickle.load(f)
-
 dict_df_products_forecasting = dict_df_products_clustering
 
-modelos = {}
 
+# Debido a que hay unn modelo por cada perfil dentro de un producto, los guardaremos en un diccionario.
+modelos = {}
 for product in products:
     modelos[product] = {}
     df = dict_df_products_forecasting[product]
     for cluster in df['Cluster'].unique():
 
         datos=pd.DataFrame(columns=['date', 'y'])
-
         temp = df.groupby(['Cluster', 'date'], as_index=False).agg({product+'_adj': 'mean'})[['Cluster', 'date',product+'_adj']]
         datos['date'] = temp[temp['Cluster'] == cluster]['date']
         datos['y'] = temp[temp['Cluster'] == cluster][product+'_adj']
-        #datos=datos[datos['date']<datetime(2022,1,1)]
         datos = datos.set_index('date')
         datos = datos.asfreq('D') # Datos diarios
         datos = datos.sort_index()
