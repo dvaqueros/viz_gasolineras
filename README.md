@@ -12,3 +12,7 @@ La empresa pretende conocer diferentes perfiles de gasolineras para saber como s
 ¿Qué tipos de gasolineras diferentes podemos encontrar en Madrid? ¿Existe alguna correlación con la localización geográfica? ¿Qué recomendaciones, basadas en lo observado, le daríais a la empresa para la localización de sus gasolineras?
 
 **Enlace a los datos:** https://www.kaggle.com/datasets/mauriciy/daily-spanish-gas-prices/download?datasetVersionNumber=2
+
+
+
+Para ejecutar la aplicación del Dash se debe ejecutar el script 'dash-main.py'
