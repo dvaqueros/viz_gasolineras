@@ -1,3 +1,11 @@
+# Este es la aplicacion final con el dash
+
+# Se puede ejecutar con este comando en la consola de Python desde el root del proyecto
+# exec(open('src/dash_main.py').read())
+
+# Tambien se puede ejecutar desde una terminal, tambien desde la raiz del proyecto
+# python src/dash_main.py
+
 import sys
 sys.path.append('src/')
 import dictionaries
@@ -12,7 +20,6 @@ import viz_forecast
 
 
 import time, datetime
-
 import pickle
 import dash, logging
 from dash import dcc, html
@@ -30,26 +37,13 @@ from PIL import Image
 # Read geojsons
 exec(open('src/dash_declarations.py').read())
 
-# # Importamos los datos para cada combustible
-# with open("data/output/diccionario_df_productos", 'rb') as f:
-#     dict_df_products = pickle.load(f)
-#
-# Importamos los datos ya procesados
 with open("data/output/df_parsed", 'rb') as f:
     df_parsed_1 = pickle.load(f)
-#
-# # Importamos los datos ya procesados
-# with open("data/output/madrid-city", 'rb') as f:
-#     city_border = pickle.load(f)
 
-#dict_df=dict_df_products.copy()
-#df=df_parsed.copy()
 product="gasoline_95E5"
 
 def getDropdownDistritos():
-    #distritos = [dbc.DropdownMenuItem(v, id=v+'_id') for v in dictionaries.list_distritos]
-    #distritos.append(dbc.DropdownMenuItem(divider=True))
-    #distritos.append(dbc.DropdownMenuItem("Todos", id='Todos_distritos'))
+
     distritos = dictionaries.list_distritos
     distritos.insert(0, "Todos")
     return distritos
@@ -57,7 +51,6 @@ def getDropdownDistritos():
 
 
 def filtrarDF(producto, distrito, start_date, end_date, barrio, cluster):
-
     with open("data/output/dict_df_products_clustering_2", 'rb') as f:
         dict_df_products = pickle.load(f)
     return_df = dict_df_products[producto]
@@ -524,4 +517,3 @@ if __name__ == "__main__":
 
 
 
-#exec(open('src/dash_main.py').read())
