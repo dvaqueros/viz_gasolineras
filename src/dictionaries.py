@@ -235,3 +235,24 @@ dict_products_clusters = {
     'lng'                   : ['Cluster 0']
 }
 
+
+colore_clusters = {
+    'Cluster 0'   :    'rgb(102, 197, 204)',
+    'Cluster 1'   :    'rgb(246, 207, 113)',
+    'Cluster 2'   :    'rgb(248, 156, 116)',
+    'Cluster 3'   :    'rgb(220, 176, 242)',
+    'Cluster 4'   :    'rgb(135, 197, 95)',
+    'Cluster 5'   :    'rgb(158, 185, 243)',
+    'Cluster 6'   :    'rgb(254, 136, 177)',
+    'Cluster 7'   :    'rgb(201, 219, 116)',
+    'Cluster 8'   :    'rgb(139, 224, 164)',
+    'Cluster 9'   :    'rgb(180, 151, 231)',
+    'Cluster 10'  :    'rgb(179, 179, 179)',
+    'Cluster 11'  :    'rgb(95, 70, 144)',
+    'Cluster 12'  :    'rgb(29, 105, 150)',
+    'Cluster 13'  :    'rgb(56, 166, 165)',
+    'Cluster 14'  :    'rgb(15, 133, 84)',
+    'Cluster 16'  :    'rgb(115, 175, 72)',
+    'Cluster 17'  :    'rgb(237, 173, 8)',
+    'Cluster 18'  :    'rgb(225, 124, 5)'
+}

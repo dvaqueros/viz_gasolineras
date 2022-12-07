@@ -58,11 +58,11 @@ def crearMapaPrecio(df_mapa, product):
                                 marker_opacity=0.1,
                                 marker_line_width=2))
 
-            print(df_mapa)
+            #print(df_mapa)
 
             fig.add_trace(go.Choroplethmapbox(geojson=neighbourhood_borders, locations=np.sort(df_mapa.neighbourhood.unique()),
                                     z=df_mapa.groupby("neighbourhood", as_index=False).agg({product: 'mean'})[product],
-                                    colorscale="oryel_r",
+                                    colorscale="oryel",
                                     zmin=min(df_mapa.groupby("neighbourhood", as_index=False).agg({product: 'mean'})[product]),
                                     zmax=max(df_mapa.groupby("neighbourhood", as_index=False).agg({product: 'mean'})[product]),
                                     marker_opacity=0.9, marker_line_width=0))

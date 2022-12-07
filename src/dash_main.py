@@ -5,6 +5,7 @@ import mapa
 import mapaDensidad
 import mapaPrecio
 import pie
+import pieClusters
 import violin
 import lineas
 import viz_forecast
@@ -99,6 +100,11 @@ def getMapa(id, prod, distrito, start_date, end_date, barrio, cluster):
 def getPie(prod, distrito, start_date, end_date, barrio, cluster):
     df = filtrarDF(prod, distrito, start_date, end_date, barrio, cluster)
     fig=pie.crearPie(df)
+    return fig
+
+def getPieCluster(prod, distrito, start_date, end_date, barrio, cluster):
+    df = filtrarDF(prod, distrito, start_date, end_date, barrio, cluster)
+    fig=pieClusters.crearPieCluster(df)
     return fig
 
 def getViolinEmpresas(prod, distrito, start_date, end_date, barrio, cluster):
@@ -308,23 +314,47 @@ app.layout = dbc.Container(
                         ),
                         html.Br(),
                         dbc.Row(
-                            html.Div(
-                                id='divPlotPie',
-                                children=
-                                     [
-                                         html.H3("Cuota del total de gasolineras por empresa"),
-                                         dbc.Card(
-                                             dbc.CardBody([
-                                                 dcc.Graph(id="plotPie",
-                                                           figure=getPie("gasoline_95E5", 'Todos', min(df_parsed_1['date']), max(df_parsed_1['date']), 'Todos', 'Todos'),
-                                                           style={'width': '100%', 'height': '100%'}
-                                                           )
-                                             ]),
-                                             class_name='border-0'
-                                         ),
+                            [
+                                dbc.Col(
+                                    html.Div(
+                                         id='divPlotPie',
+                                         children=
+                                              [
+                                                  html.H3("Cuota del total de gasolineras por empresa"),
+                                                  dbc.Card(
+                                                      dbc.CardBody([
+                                                          dcc.Graph(id="plotPie",
+                                                                    figure=getPie("gasoline_95E5", 'Todos', min(df_parsed_1['date']), max(df_parsed_1['date']), 'Todos', 'Todos'),
+                                                                    style={'width': '100%', 'height': '100%'}
+                                                                    )
+                                                      ]),
+                                                      class_name='border-0'
+                                                  ),
+                                              ]
+                                    )
+                                ),
+                                dbc.Col(
+                                    html.Div(
+                                        id='divPlotPieCluster',
+                                        children=
+                                        [
+                                            html.H3("Cuota del total de gasolineras por perfil"),
+                                            dbc.Card(
+                                                dbc.CardBody([
+                                                    dcc.Graph(id="plotPieCluster",
+                                                              figure=getPieCluster("gasoline_95E5", 'Todos',
+                                                                            min(df_parsed_1['date']),
+                                                                            max(df_parsed_1['date']), 'Todos', 'Todos'),
+                                                              style={'width': '100%', 'height': '100%'}
+                                                              )
+                                                ]),
+                                                class_name='border-0'
+                                            ),
 
-                                     ]
-                            )
+                                        ]
+                                    )
+                                ),
+                            ]
                         ),
                         html.Br(),
                         dbc.Row(
@@ -426,6 +456,7 @@ app.layout = dbc.Container(
 @app.callback( #Mapa a mostrara
     Output("plotMap", "figure"),
     Output("plotPie", "figure"),
+    Output("plotPieCluster", "figure"),
     Output("plotViolinEmpresas", "figure"),
     Output("plotLineas", "figure"),
     Output("plotForecast", "figure"),
@@ -440,6 +471,7 @@ app.layout = dbc.Container(
 def selectTabMap(active_tab_map, active_tab_prod, distrito, start_date, end_date, barrio, cluster):
     return [getMapa(active_tab_map, active_tab_prod, distrito, start_date, end_date, barrio, cluster),
             getPie(active_tab_prod, distrito, start_date, end_date, barrio, cluster),
+            getPieCluster(active_tab_prod, distrito, start_date, end_date, barrio, cluster),
             getViolinEmpresas(active_tab_prod, distrito, start_date, end_date, barrio, cluster),
             getLineas(active_tab_prod, distrito, start_date, end_date, barrio, cluster),
             getForecast(active_tab_prod, distrito, start_date, end_date, barrio, cluster)]
@@ -459,8 +491,10 @@ def barriosDeDistrito(distrito):
     Input("district-dd", 'value'),
     Input("barrio-dd", 'value')
 )
-def barriosDeDistrito(distrito, barrio):
+def barriosDeDistritoDefecto(distrito, barrio):
     if distrito == 'Todos':
+        return "Todos"
+    if barrio not in dict_district_neigh[distrito]:
         return "Todos"
     else:
         return barrio
@@ -472,6 +506,13 @@ def barriosDeDistrito(distrito, barrio):
 )
 def clustersDeProducto(producto):
     return ["Todos"]+dict_products_clusters[producto]
+
+@app.callback( # Barrios por distrito dd
+    Output("cluster-dd", "value"),
+    Input("tab_products", 'active_tab'),
+)
+def clustersDeProductoDefecto(producto):
+    return "Todos"
 
 
 

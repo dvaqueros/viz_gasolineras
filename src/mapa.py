@@ -45,12 +45,14 @@ def crearMapaScatter(df_mapa):
 
         for name in list(name_colors.keys()):
             df_mapa_1 = df_mapa[(df_mapa['name_parsed'] == name)]
+            print(df_mapa_1[products])
+            df_mapa_1['num_combustibles'] = df_mapa_1[products].astype(bool).sum(axis=1)
             fig.add_trace(go.Scattermapbox(
                 name=name,
                 mode="markers+text",
                 lat=df_mapa_1["latitude"], lon=df_mapa_1["longitude"],
                 marker=go.scattermapbox.Marker(
-                    size=df_mapa_1['num_combustibles'] * 3,
+                    size=df_mapa_1['num_combustibles']*3,
                     symbol="circle",
                     color=name_colors[name],
                     opacity=0.7)

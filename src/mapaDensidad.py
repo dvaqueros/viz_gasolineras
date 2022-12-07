@@ -39,7 +39,7 @@ def crearMapaDensidad(df_mapa):
 
         fig.add_trace(go.Choroplethmapbox(geojson=neighbourhood_borders, locations=np.sort(df_mapa.neighbourhood.unique()),
                                             z = df_mapa.groupby("neighbourhood",as_index = False).count()['station_id'],
-                                            colorscale = "tealgrn_r",
+                                            colorscale = "tealgrn",
                                             zmin = 0,
                                             zmax = max(df_mapa.groupby("neighbourhood",as_index = False).count()['station_id']),
                                             marker_opacity = 0.9, marker_line_width=0))
