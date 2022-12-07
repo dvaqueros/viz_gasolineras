@@ -7,6 +7,7 @@ import mapaPrecio
 import pie
 import violin
 import lineas
+import viz_forecast
 
 
 import time, datetime
@@ -109,6 +110,11 @@ def getViolinEmpresas(prod, distrito, start_date, end_date, barrio):
 def getLineas(prod, distrito, start_date, end_date, barrio):
     df = filtrarDF(prod, distrito, start_date, end_date, barrio)
     fig=lineas.crearLineas(df, prod)
+    return fig
+
+def getForecast(prod, distrito, start_date, end_date, barrio):
+    df = filtrarDF(prod, distrito, start_date, end_date, barrio)
+    fig=viz_forecast.crearForecast(df, prod)
     return fig
 
 
@@ -349,6 +355,33 @@ app.layout = dbc.Container(
                                          ),
                                      ]
                             )
+                        ),
+                        html.Br(),
+                        html.Br(),
+                        html.Hr(),
+                        html.Hr(),
+                        html.Hr(),
+                        html.Br(),
+                        html.Br(),
+                        dbc.Row(
+                            html.Div(
+                                id='divPlotForecast',
+                                children=
+                                     [
+                                         html.H3("Forecasting"),
+                                         dbc.Card(
+                                             dbc.CardBody([
+                                                 dcc.Graph
+                                                    (
+                                                        id="plotForecast",
+                                                        figure=getLineas("gasoline_95E5", 'Todos',  min(df_parsed_1['date']), max(df_parsed_1['date']), 'Todos'),
+                                                        style={'width': '100%', 'height': '100%'}
+                                                    )
+                                             ]),
+                                             class_name='border-0'
+                                         ),
+                                     ]
+                            )
                         )
                     ],
                     style=
@@ -385,6 +418,7 @@ app.layout = dbc.Container(
     Output("plotPie", "figure"),
     Output("plotViolinEmpresas", "figure"),
     Output("plotLineas", "figure"),
+    Output("plotForecast", "figure"),
     Input("tab_mapas", 'active_tab'),
     Input("tab_products", 'active_tab'),
     Input("district-dd", 'value'),
@@ -396,7 +430,8 @@ def selectTabMap(active_tab_map, active_tab_prod, distrito, start_date, end_date
     return [getMapa(active_tab_map, active_tab_prod, distrito, start_date, end_date, barrio),
             getPie(active_tab_prod, distrito, start_date, end_date, barrio),
             getViolinEmpresas(active_tab_prod, distrito, start_date, end_date, barrio),
-            getLineas(active_tab_prod, distrito, start_date, end_date, barrio)]
+            getLineas(active_tab_prod, distrito, start_date, end_date, barrio),
+            getForecast(active_tab_prod, distrito, start_date, end_date, barrio)]
 
 @app.callback( # Barrios por distrito dd
     Output("barrio-dd", "options"),
